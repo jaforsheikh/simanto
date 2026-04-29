@@ -1,7 +1,20 @@
 import mongoose from "mongoose";
 
 export const connectDB = async () => {
-  if (mongoose.connection.readyState === 1) return;
+  try {
+    if (mongoose.connection.readyState === 1) return;
 
-  await mongoose.connect(process.env.MONGO_URI!);
+    const uri = process.env.MONGODB_URI;
+
+    // ✅ important fix
+    if (!uri) {
+      console.warn("⚠️ MongoDB URI not found. Skipping DB connection.");
+      return;
+    }
+
+    await mongoose.connect(uri);
+    console.log("✅ MongoDB Connected");
+  } catch (error) {
+    console.log("❌ DB connection error:", error);
+  }
 };
