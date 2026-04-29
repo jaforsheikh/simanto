@@ -2,20 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { FiLogOut } from "react-icons/fi";
-import { authClient } from "@/lib/auth-client";
 
 export default function LogoutButton() {
   const router = useRouter();
 
-  async function handleLogout() {
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          router.push("/login");
-          router.refresh();
-        },
-      },
-    });
+  function handleLogout() {
+    router.push("/login");
+    router.refresh();
   }
 
   return (
